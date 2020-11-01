@@ -1,24 +1,24 @@
 {
-  "name": "sandplate",
-  "version": "0.0.7",
-  "description": "A boilerplate/template discord.js bot",
+  "name": "melted-cheese",
+  "version": "0.0.1",
+  "description": "An unnamed project for playing board games over discord",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/06000208/sandplate.git"
+    "url": "https://github.com/06000208/melted-cheese.git"
   },
   "engines": {
     "node": ">12.0.0"
   },
-  "author": "https://github.com/06000208/sandplate/graphs/contributors",
+  "author": "https://github.com/06000208/",
   "license": "Unlicense",
   "bugs": {
-    "url": "https://github.com/06000208/sandplate/issues"
+    "url": "https://github.com/06000208/melted-cheese/issues"
   },
-  "homepage": "https://github.com/06000208/sandplate#readme",
+  "homepage": "https://github.com/06000208/melted-cheese#readme",
   "dependencies": {
     "bufferutil": "^4.0.1",
     "chalk": "^4.1.0",

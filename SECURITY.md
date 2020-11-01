@@ -1,6 +1,6 @@
 # Security Policy
 
-If there are vulnerabilities in any sandplate related code, regardless of how small, where, or version, we want to hear about it.
+If there any vulnerabilities, regardless of how small, where, or version, we want to hear about it.
 
 To report security issues, email [`a06000208@protonmail.com`](mailto:a06000208@protonmail.com)
 

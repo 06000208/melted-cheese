@@ -1,37 +1,10 @@
-# Sandplate (Initial Development)
+# Melted Cheese
 
-Sandplate is an opinionated boilerplate/template [discord.js](https://discord.js.org) bot, and can be used as a base to expand upon.
+An unnamed project for playing board games over discord, forked from [sandplate](https://github.com/06000208/sandplate) for the discord bot base.
 
-It's purpose is to cover all the "basics" of a discord bot's internals, such as, but not limited to:
+This is highly experimental, and is more or less just a prototype at the moment. If you're interested, you can join our [discord](https://discord.gg/xSMRMmYefR).
 
-- Automatically generating the configuration file
-- Logging in with either a persisted token (stored in the config) or non-persisted (command prompt argument)
-- Framework for commands and event modules (also known as a command handler)
-- Reloadable command and event modules
-- Command access control
-- Blocking users or guilds from interacting with the bot
-- Supporting any number of command prefixes alongside @mention support
-- Improved console logging (timestamps and labels)
-- Batch script for running & automatically restarting the bot
-- A full set of default commands written in the framework
-
-This way, you don't need to write these things in full yourself, they're available to expand upon and use, whatever your purpose, and you can merge fixes/improvements from this repository into your project as they occur.
-
-However, the idea is *not* to skip learning how to code what sandplate does for you. Rather, to make use of sandplate properly, you'll need to know how things are implemented and familiarize yourself with the internals.
-
-Sandplate is currently in initial development, during which anything may change at any time, and releases are not being utilized.
-
-## Contributing
-
-If you'd like to contribute to sandplate or get involved, read our [contributing](CONTRIBUTING.md) file! Reporting issues, bugs, and requesting features are also described there.
-
-## Contact
-
-While sandplate uses it's [issue section](https://github.com/06000208/sandplate/issues) for collaboration and project planning, for real time communication, the preferred method is [this discord server](https://discord.gg/xErQY6M).
-
-<a href="https://discord.gg/xErQY6M"><img src="https://discordapp.com/api/guilds/273550655673860106/embed.png" alt="Discord Server" /></a>
-
-Additionally, you can get in touch with the project lead directly by emailing [`a06000208@protonmail.com`](mailto:a06000208@protonmail.com) if necessary.
+<a href="https://discord.gg/xSMRMmYefR"><img src="https://discordapp.com/api/guilds/772221576481472533/embed.png" alt="Discord Server" /></a>
 
 ## Code Of Conduct
 
