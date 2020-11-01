@@ -88,11 +88,12 @@ if %initial% == 1 (
 )
 if %token% == 0 (
   @echo on
-  node index.js
+  npm start
   @echo off
 ) else (
   @echo on
-  node index.js %token%
+  echo Non-persisted tokens cannot be used while the app is being refactored
+  REM npm start %token%
   @echo off
 )
 echo.
