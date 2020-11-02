@@ -15,13 +15,18 @@ const filehound = require("filehound");
  * As is, you shouldn't instantiate this anywhere other than in the Client class's constructor, unless you're prepared to deal with overlapping lowdb databases. This will be fixed in future versions.
   */
 class Handler {
-  constructor() {
+  constructor(fileName) {
+    /**
+     * File name used for the handler's lowdb
+     */
+    this.fileName = fileName;
+
     /**
      * Full file path used for the modules database
      * @type {string}
      * @readonly
      */
-    this.dbPath = path.join(__dirname, "../data/modules.json");
+    this.dbPath = path.join(__dirname, `../data/${this.fileName}.json`);
 
     // Determine whether the modules database exists prior to using low()
     const generating = !fse.pathExistsSync(this.dbPath);
@@ -34,13 +39,15 @@ class Handler {
     // Handle modules configured to be disabled by default
     // All modules not present in the modules database are implicitly enabled (and will be added upon load)
     if (generating) {
-      for (const filePath of disabledModules) {
-        const resolvedPath = Handler.resolvePath(filePath);
-        if (!resolvedPath.success) continue; // If a path fails to resolve, just skip it
-        // You have to put the path in an array so that periods aren't interpreted as traversing the db
-        if (!this.modules.has([resolvedPath.value]).value()) this.modules.set([resolvedPath.value], false).write();
+      if (disabledModules[this.fileName].length) {
+        for (const filePath of disabledModules[this.fileName]) {
+          const resolvedPath = Handler.resolvePath(filePath);
+          if (!resolvedPath.success) continue; // If a path fails to resolve, just skip it
+          // You have to put the path in an array so that periods aren't interpreted as traversing the db
+          if (!this.modules.has([resolvedPath.value]).value()) this.modules.set([resolvedPath.value], false).write();
+        }
       }
-      log.info("A modules database has been generated at ./data/modules.json");
+      log.info(`A modules database has been generated at ./data/${this.fileName}.json`);
     }
   }
 
