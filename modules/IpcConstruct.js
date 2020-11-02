@@ -9,17 +9,18 @@ const { collectionArrayPush, collectionArrayFilter } = require("./miscellaneous"
  */
 class IpcConstruct extends BaseConstruct {
   /**
-   * @param {EventEmitter} ipc
+   * @param {IpcMain|IpcRenderer} ipc
    * @param {Pipe} pipe
+   * @param {boolean} main
    * @param {string} [name]
    */
-  constructor(ipc, pipe, name) {
+  constructor(ipc, pipe, main, name) {
     super(name);
 
     /**
      * Reference to the ipc this IpcConstruct is for
      * @name IpcConstruct#ipc
-     * @type {EventEmitter}
+     * @type {IpcMain|IpcRenderer}
      * @readonly
      */
     Object.defineProperty(this, "ipc", { value: ipc });
@@ -31,6 +32,12 @@ class IpcConstruct extends BaseConstruct {
      * @readonly
      */
     Object.defineProperty(this, "pipe", { value: pipe });
+
+    /**
+     * Whether this is being instantiated for the main process
+     * @type {boolean}
+     */
+    this.main = main;
 
     /**
      * Cached IpcBlocks mapped by their ids
@@ -68,11 +75,11 @@ class IpcConstruct extends BaseConstruct {
     super.load(block, filePath);
     // bind correct this value & prefix pipe as the first parameter
     block.run = block.run.bind(block, this.pipe);
-    // .once() or .on()
-    if (block.once) {
-      this.ipc.once(block.channel, block.run);
+    // listener logic
+    if (this.main && block.invocable) {
+      block.once ? this.ipc.handleOnce(block.channel, block.run) : this.ipc.handle(block.channel, block.run);
     } else {
-      this.ipc.on(block.channel, block.run);
+      block.once ? this.ipc.once(block.channel, block.run) : this.ipc.on(block.channel, block.run);
     }
     // collections
     collectionArrayPush(this.idsByChannel, block.channel, block.id);

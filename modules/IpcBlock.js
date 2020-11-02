@@ -5,6 +5,7 @@ const { has, isPlainObject, isFunction, isString, isNil, isBoolean } = require("
  * @typedef {Object} ListenerData
  * @property {string} channel
  * @property {?boolean} [once=false]
+ * @property {?boolean} [invocable=false]
  */
 
 /**
@@ -42,8 +43,14 @@ class IpcBlock extends BaseBlock {
      */
     this.once = Boolean(data.once);
 
+    /**
+     * Whether the listener should be considered invocable and listened to using ipcMain.handle()
+     * @type {boolean}
+     */
+    this.invocable = Boolean(data.invocable);
+
     // Methods
-    // Note that bind() isn't used here in favor of doing it in IpcConstruct's load method, so that it can bind parameters as well
+    // Note that bind() isn't used here in favor of doing it in IpcConstruct's load method, so it can bind parameters as well
 
     /**
      * Callback function called when the channel named by the IpcBlock.channel property is invoked
@@ -61,8 +68,9 @@ class IpcBlock extends BaseBlock {
   static validateParameters(data, run) {
     if (!isPlainObject(data)) throw new TypeError("Listener data parameter must be an Object.");
     if (!isFunction(run)) throw new TypeError("Listener run parameter must be a function.");
-    if (!isString(data.channel)) throw new TypeError("Listener data.channel must be a string.");
-    if (has(data, "once") && !isNil(data.once)) if (!isBoolean(data.once)) throw new TypeError("Listener data.once name must be a boolean if included.");
+    if (!isString(data.channel)) throw new TypeError("Parameter data.channel must be a string.");
+    if (has(data, "once") && !isNil(data.once)) if (!isBoolean(data.once)) throw new TypeError("Parameter data.once must be a boolean if included.");
+    if (has(data, "invocable") && !isNil(data.invocable)) if (!isBoolean(data.invocable)) throw new TypeError("Parameter data.invocable must be a boolean if included.");
   }
 
 }

@@ -72,7 +72,7 @@ class Client extends DiscordClient {
      * Pipe
      * @type {PipeMain}
      */
-    this.pipe = new PipeMain("./app/mainListeners/", "main", this);
+    this.pipe = new PipeMain("./app/mainListeners/", this);
 
     /**
      * Version numbers

@@ -17,7 +17,7 @@ _The changelog for this version is incomplete/w.i.p and currently being written 
 - Updated the handler class (and `defaultData.js`) to support multiple instances through controlling what file name the modules db uses
 - Inter-process Communication Infrastructure through the `IpcBlock`, `IpcConstruct`, `Pipe`, `PipeMain`, and `PipeRender` classes.
   - `PipeRender` is instantiated on window (`window.pipe`) in the renderer process and has it's own Handler, while `PipeMain` is instantiated on the client (`client.pipe`) and uses it's handler.
-  - As electron's ipc objects extend node's EventEmitters, the construct and block classes are similar to EventConstruct and ListenerBlock, but rewritten for IPC. Note that [invoked listeners](https://www.electronjs.org/docs/api/ipc-renderer#ipcrendererinvokechannel-args) aren't supported yet.
+  - As electron's ipc objects extend node's EventEmitters, the construct and block classes are similar to EventConstruct and ListenerBlock, but rewritten for IPC. They support both normal and [invoked](https://www.electronjs.org/docs/api/ipc-renderer#ipcrendererinvokechannel-args) listeners.
   - Listeners loaded by an end of a pipe (`PipeMain` and `PipeRender`) will have their pipe as the first argument. Additionally, `pipe.client` and `pipe.window` are accessible on their respective pipes.
   - Pipe ends are planned to be populated with many properties and methods for their respective side of the app.
   - Currently, the login menu button performs a simple back/forth test with IPC. This can be seen in the logs (node.js terminal and the developer tools console)

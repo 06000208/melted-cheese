@@ -7,7 +7,13 @@ const log = require("./log");
  * @extends {Base}
  */
 class Pipe extends Base {
-  constructor(listeners, end = "unknown", handler, ipc) {
+  /**
+   * @param {string} listeners
+   * @param {boolean} main
+   * @param {Handler} handler
+   * @param {IpcMain|IpcRenderer} ipc
+   */
+  constructor(listeners, main, handler, ipc) {
     super();
 
     /**
@@ -16,9 +22,10 @@ class Pipe extends Base {
     this.listeners = listeners;
 
     /**
-     * Which end of the type is being instantiated
+     * Whether this is being instantiated for the main process
+     * @type {boolean}
      */
-    this.end = end;
+    this.main = main;
 
     /**
      * Reference to the handler
@@ -32,17 +39,17 @@ class Pipe extends Base {
      * Channels
      * @type {IpcConstruct}
      */
-    this.channels = new IpcConstruct(ipc, this, `${this.end} pipe ipc construct`);
+    this.channels = new IpcConstruct(ipc, this, `${this.main ? "main" : "render"} pipe ipc construct`);
 
     // /**
     //  * Events
     //  * @type {EventConstruct}
     //  */
-    // this.events = new EventConstruct(this, `${this.end} pipe event construct`);
+    // this.events = new EventConstruct(this, `${this.main ? "main" : "render"} pipe event construct`);
 
     /**
      * Whether or not this pipe has been initialized
-     * @type {Boolean}
+     * @type {boolean}
      */
     this.initialized = false;
   }
@@ -51,7 +58,7 @@ class Pipe extends Base {
    * @param {Handler} handler
    */
   async initiate(handler) {
-    log.info(`${this.end} pipe is initializing using the ${handler.fileName} handler`);
+    log.info(`${this.main ? "main" : "render"} pipe is initializing using the ${handler.fileName} handler`);
     const ipcListeners = await this.handler.requireDirectory(this.channels, this.listeners, true);
     log.info(ipcListeners.message);
     this.initialized = true;

@@ -6,8 +6,12 @@ const { ipcRenderer } = require("electron");
  * @extends {Pipe}
  */
 class PipeRender extends Pipe {
-  constructor(listeners, end, window) {
-    super(listeners, end, new Handler("renderModules"), ipcRenderer);
+  /**
+   * @param {string} listeners
+   * @param {Window} window
+   */
+  constructor(listeners, window) {
+    super(listeners, false, new Handler("renderModules"), ipcRenderer);
 
     /**
      * Reference to the window
