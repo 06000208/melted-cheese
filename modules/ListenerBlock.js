@@ -62,7 +62,7 @@ class ListenerBlock extends BaseBlock {
     if (!isPlainObject(data)) throw new TypeError("Listener data parameter must be an Object.");
     if (!isFunction(run)) throw new TypeError("Listener run parameter must be a function.");
     if (!isString(data.event)) throw new TypeError("Listener data.event must be a string.");
-    if (has(data, "once") && !isNil(data.once)) if (!isBoolean(data.once)) throw new TypeError("Listener data.once name must be a boolean if included.");
+    if (has(data, "once") && !isNil(data.once)) if (!isBoolean(data.once)) throw new TypeError("Listener data.once must be a boolean if included.");
   }
 
 }
