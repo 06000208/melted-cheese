@@ -1,5 +1,5 @@
 const log = require("./modules/log");
-const { version } = require("discord.js");
+const { version: discordVersion } = require("discord.js");
 
 // node.js process event listeners (if you can improve these, please contribute!)
 // https://nodejs.org/api/process.html (list is under Process Events)
@@ -16,8 +16,8 @@ process.on("exit", (code) => code === 0 ? log.info("Exiting peacefully") : log.w
 if (Number(process.version.slice(1).split(".")[0]) < 12) { // version < minVer
   log.fatal(`node.js v12+ is required, currently ${process.version}`);
   process.exit(1);
-} else if (Number(version.split(".")[0]) < 12) { // version < minVer
-  log.fatal(`discord.js v12+ is required, currently v${version}`);
+} else if (Number(discordVersion.split(".")[0]) < 12) { // version < minVer
+  log.fatal(`discord.js v12+ is required, currently v${discordVersion}`);
   process.exit(1);
 }
 
