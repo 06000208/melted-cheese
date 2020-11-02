@@ -1,0 +1,105 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* > :first-child {
+  margin-top: 0;
+}
+
+* > :last-child {
+  margin-bottom: 0;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  background-color: #eeeeee;
+}
+
+body {
+  width: auto;
+  min-height: 100vh;
+  scroll-behavior: smooth;
+  text-rendering: optimizeSpeed;
+  color: #111111;
+  line-height: 1.2;
+  font-size: 16px;
+  font-weight: 400;
+  font-family: "Courier New", Courier, monospace;
+}
+
+p,
+ul,
+ol,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-bottom: 16px;
+  margin-top: 16px;
+}
+
+ul, ol {
+  padding-left: 20px;
+}
+
+ul li,
+ol li {
+  margin-bottom: 8px;
+  margin-top: 8px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 500;
+}
+
+img {
+  vertical-align: middle;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+a {
+  color: #0366d6;
+  text-decoration: none;
+  transition: 0.2s;
+}
+
+a.link {
+  border: solid 1px transparent;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+a:focus,
+a:active {
+  text-decoration: none;
+}
+
+a:focus.link,
+a:active.link {
+  border: solid 1px #0366d6;
+  border-radius: 2px;
+  outline: none;
+  box-shadow: none;
+}
