@@ -2,19 +2,21 @@ const GuildManager = require("./GuildManager");
 const CommandConstruct = require("./CommandConstruct");
 const EventConstruct = require("./EventConstruct");
 const Handler = require("./Handler");
+const PipeMain = require("./PipeMain");
 const log = require("./log");
-const Discord = require("discord.js");
+const { Client: DiscordClient, Collection, version } = require("discord.js");
 const low = require("lowdb");
 const FileSync = require("lowdb/adapters/FileSync");
 const fse = require("fs-extra");
 const path = require("path");
 const { config } = require("./defaultData");
+const sandplate = require("../sandplate.json");
 
 /**
  * Extension of the discord.js client
- * @extends {Discord.Client}
+ * @extends {DiscordClient}
  */
-class Client extends Discord.Client {
+class Client extends DiscordClient {
   /**
    * @param {ClientOptions} options - Options for the client
    */
@@ -44,15 +46,15 @@ class Client extends Discord.Client {
 
     /**
      * Arbitrary Collection
-     * @type {Discord.Collection<*, *>}
+     * @type {Collection<*, *>}
      */
-    this.cookies = new Discord.Collection();
+    this.cookies = new Collection();
 
     /**
      * Handler framework
      * @type {Handler}
      */
-    this.handler = new Handler();
+    this.handler = new Handler("mainModules");
 
     /**
      * Commands
@@ -65,6 +67,23 @@ class Client extends Discord.Client {
      * @type {EventConstruct}
      */
     this.events = new EventConstruct(this, "discord.js event construct");
+
+    /**
+     * Pipe
+     * @type {PipeMain}
+     */
+    this.pipe = new PipeMain("./app/mainListeners/", "main", this);
+
+    /**
+     * Version numbers
+     */
+    this.versions = {
+      node: process.version.slice(1),
+      electron: process.versions["electron"],
+      chrome: process.versions["chrome"],
+      discordjs: version,
+      sandplate: sandplate.version,
+    };
   }
 }
 
