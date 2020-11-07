@@ -1,29 +1,29 @@
-const Client = require("./modules/Client");
+const MainPipe = require("./modules/MainPipe");
 const log = require("./modules/log");
 const package = require("./package.json");
 const { app, BrowserWindow } = require("electron");
 const window = require("./app/window");
 
-// Instantiate client
-const client = new Client({
+// Instantiate the main pipe
+const pipe = new MainPipe("./app/ipcMain/", "./app/mainListeners/", "mainModules", {
   disableMentions: "all",
   // This changes the default value for the equivalent message option, good practice imo
   // https://discord.js.org/#/docs/main/stable/typedef/MessageOptions?scrollTo=disableMentions
 });
 
-log.info(`Starting app v${package.version} on ${process.platform} using`, client.versions);
+log.info(`Starting app v${package.version} on ${process.platform} using`, pipe.versions);
 
 const init = async function() {
   await app.whenReady();
   log.info("Electron has been initialized");
-  const discordCommands = await client.handler.requireDirectory(client.commands, client.config.get("commands.directory").value(), true);
+  await pipe.initiate();
+  const discordCommands = await pipe.handler.requireDirectory(pipe.client.commands, pipe.client.config.get("commands.directory").value(), true);
   log.info(discordCommands.message);
-  const discordEvents = await client.handler.requireDirectory(client.events, client.config.get("events.directory").value(), true);
+  const discordEvents = await pipe.handler.requireDirectory(pipe.client.events, pipe.client.config.get("events.directory").value(), true);
   log.info(discordEvents.message);
-  await client.pipe.initiate(client.handler);
-  log.info("Adding event listeners to app...");
+  log.info("Adding event listeners to electron app...");
   app.on("activate", () => {
-    if (BrowserWindow.getAllWindows().length === 0) window();
+    if (BrowserWindow.getAllWindows().length === 0) window(pipe);
   });
   app.on("window-all-closed", () => {
     if (process.platform !== "darwin") {
@@ -32,7 +32,7 @@ const init = async function() {
     }
   });
   log.info("Creating window");
-  window();
+  window(pipe);
 };
 
 init();

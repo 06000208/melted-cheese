@@ -1,32 +1,38 @@
 const GuildManager = require("./GuildManager");
 const CommandConstruct = require("./CommandConstruct");
 const EventConstruct = require("./EventConstruct");
-const Handler = require("./Handler");
-const PipeMain = require("./PipeMain");
 const log = require("./log");
-const { Client: DiscordClient, Collection, version } = require("discord.js");
+const { Client: DiscordClient, Collection } = require("discord.js");
 const low = require("lowdb");
 const FileSync = require("lowdb/adapters/FileSync");
 const fse = require("fs-extra");
 const path = require("path");
 const { config } = require("./defaultData");
-const sandplate = require("../sandplate.json");
 
 /**
  * Extension of the discord.js client
- * @extends {DiscordClient}
+ * @extends {Client}
  */
 class Client extends DiscordClient {
   /**
+   * @param {MainPipe} pipe - The main process's instantiated pipe class
    * @param {ClientOptions} options - Options for the client
    */
-  constructor(options) {
+  constructor(pipe, options) {
     super(options);
 
     /**
      * Replace this.guilds with our extended GuildManager
      */
     this.guilds = new GuildManager(this);
+
+    /**
+     * Reference to the pipe this Client is for
+     * @name Client#pipe
+     * @type {MainPipe}
+     * @readonly
+     */
+    Object.defineProperty(this, "pipe", { value: pipe });
 
     /**
      * Full file path used for the configuration file
@@ -51,12 +57,6 @@ class Client extends DiscordClient {
     this.cookies = new Collection();
 
     /**
-     * Handler framework
-     * @type {Handler}
-     */
-    this.handler = new Handler("mainModules");
-
-    /**
      * Commands
      * @type {CommandConstruct}
      */
@@ -67,23 +67,6 @@ class Client extends DiscordClient {
      * @type {EventConstruct}
      */
     this.events = new EventConstruct(this, "discord.js event construct");
-
-    /**
-     * Pipe
-     * @type {PipeMain}
-     */
-    this.pipe = new PipeMain("./app/mainListeners/", this);
-
-    /**
-     * Version numbers
-     */
-    this.versions = {
-      node: process.version.slice(1),
-      electron: process.versions["electron"],
-      chrome: process.versions["chrome"],
-      discordjs: version,
-      sandplate: sandplate.version,
-    };
   }
 }
 

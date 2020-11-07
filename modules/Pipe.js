@@ -1,25 +1,51 @@
-const Base = require("./Base");
-// const EventConstruct = require("./EventConstruct");
+const BaseEventEmitter = require("./BaseEventEmitter");
+const EventConstruct = require("./EventConstruct");
 const IpcConstruct = require("./IpcConstruct");
+const Handler = require("./Handler");
 const log = require("./log");
+const { version: DiscordVersion } = require("discord.js");
+const sandplate = require("../sandplate.json");
 
 /**
  * @extends {Base}
  */
-class Pipe extends Base {
+class Pipe extends BaseEventEmitter {
   /**
-   * @param {string} listeners
+   * @param {string} channelListeners
+   * @param {string} eventListeners
+   * @param {string} modulesName
    * @param {boolean} main
-   * @param {Handler} handler
    * @param {IpcMain|IpcRenderer} ipc
    */
-  constructor(listeners, main, handler, ipc) {
+  constructor(channelListeners, eventListeners, modulesName, main, ipc) {
     super();
 
     /**
-     * Path to the folder containing shared listeners
+     * Whether or not this pipe has been initialized
+     * @type {boolean}
      */
-    this.listeners = listeners;
+    this.initialized = false;
+
+    /**
+     * Version numbers
+     */
+    this.versions = {
+      node: process.version.slice(1),
+      electron: process.versions["electron"],
+      chrome: process.versions["chrome"],
+      discordjs: DiscordVersion,
+      sandplate: sandplate.version,
+    };
+
+    /**
+     * Path to the folder containing ipc channel listeners
+     */
+    this.channelListeners = channelListeners;
+
+    /**
+     * Path to the folder containing event listeners
+     */
+    this.eventListeners = eventListeners;
 
     /**
      * Whether this is being instantiated for the main process
@@ -28,39 +54,30 @@ class Pipe extends Base {
     this.main = main;
 
     /**
-     * Reference to the handler
-     * @name Pipe#handler
-     * @type {Handler}
-     * @readonly
-     */
-    Object.defineProperty(this, "handler", { value: handler });
-
-    /**
      * Channels
      * @type {IpcConstruct}
      */
-    this.channels = new IpcConstruct(ipc, this, `${this.main ? "main" : "render"} pipe ipc construct`);
-
-    // /**
-    //  * Events
-    //  * @type {EventConstruct}
-    //  */
-    // this.events = new EventConstruct(this, `${this.main ? "main" : "render"} pipe event construct`);
+    this.channels = new IpcConstruct(ipc, this, `${this.main ? "main" : "renderer"} pipe ipc construct`);
 
     /**
-     * Whether or not this pipe has been initialized
-     * @type {boolean}
+     * Events
+     * @type {EventConstruct}
      */
-    this.initialized = false;
+    this.events = new EventConstruct(this, `${this.main ? "main" : "renderer"} pipe event construct`);
+
+    /**
+     * Handler framework
+     * @type {Handler}
+     */
+    this.handler = new Handler(modulesName);
   }
 
-  /**
-   * @param {Handler} handler
-   */
-  async initiate(handler) {
-    log.info(`${this.main ? "main" : "render"} pipe is initializing using the ${handler.fileName} handler`);
-    const ipcListeners = await this.handler.requireDirectory(this.channels, this.listeners, true);
-    log.info(ipcListeners.message);
+  async initiate() {
+    log.info(`${this.main ? "main" : "render"} pipe is initializing`);
+    const channelListeners = await this.handler.requireDirectory(this.channels, this.channelListeners, true);
+    log.info(channelListeners.message);
+    const eventListeners = await this.handler.requireDirectory(this.events, this.eventListeners, true);
+    log.info(eventListeners.message);
     this.initialized = true;
   }
 }
