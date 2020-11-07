@@ -3,7 +3,7 @@ const path = require("path");
 const { find } = require("lodash");
 const log = require("../modules/log");
 
-module.exports = function() {
+module.exports = function(pipe) {
   const win = new BrowserWindow({
     webPreferences: {
       nodeIntegration: true,
@@ -22,7 +22,8 @@ module.exports = function() {
     click: (menuItem, browserWindow, event) => {
       // console.log(menuItem, browserWindow, event);
       log.info("You clicked the login button. The menu bar is handled by the main process");
-      win.webContents.send("hello");
+      win.webContents.send("login");
+      pipe.emit("login");
     },
   }));
   menu.append(new MenuItem({

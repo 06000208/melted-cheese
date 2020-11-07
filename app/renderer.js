@@ -1,6 +1,7 @@
 const log = require("../modules/log");
+const RendererPipe = require("../modules/RendererPipe");
+
 log.debug("render");
 
-const PipeRender = require("../modules/PipeRender");
-window.pipe = new PipeRender("./app/renderListeners/", window);
-window.pipe.initiate(window.pipe.handler);
+window.pipe = new RendererPipe("./app/ipcRenderer", "./app/rendererListeners/", "renderModules", window);
+window.pipe.initiate();

@@ -9,4 +9,6 @@
 //   }
 // });
 
-console.log("preload");
+const log = require("../modules/log");
+log.debug("preload");
+
