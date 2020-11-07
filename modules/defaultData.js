@@ -69,9 +69,10 @@ module.exports.config = {
  */
 module.exports.disabledModules = {
   mainModules: [
+    // "../bot/commands/eval",
     "../bot/commands/example",
     "../bot/commands/templateMultiple",
-    "../bot/commands/eval",
+    "../bot/commands/wikimedia",
   ],
   renderModules: [],
 };
