@@ -1,3 +1,6 @@
+console.log("bot.js is presently unused");
+console.log("the following code *will not* work, as the classes involved have been changed in various ways");
+
 const Client = require("./modules/Client");
 const log = require("./modules/log");
 const fse = require("fs-extra");
