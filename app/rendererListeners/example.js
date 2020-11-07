@@ -5,5 +5,5 @@ module.exports = new ListenerBlock({
   event: "example",
   once: false,
 }, function(pipe) {
-  log.info("The example event was emitted in the main process");
+  log.info("The example event was emitted in a renderer process");
 });
