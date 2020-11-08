@@ -22,3 +22,4 @@ report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 !**/temp/.gitkeep
 **/logs/*
 !**/logs/.gitkeep
+/web/junk.css
