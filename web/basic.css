@@ -75,6 +75,24 @@ button,
 textarea,
 select {
   font: inherit;
+  font-size: inherit;
+  font-family: inherit;
+}
+
+input {
+  display: block;
+  width: 100%;
+  padding: 4px 12px;  
+  border-radius: 6px;
+  border: 1px solid #dddddd;
+  background: #eeeeee;
+  transition: 0.2s;
+}
+
+input:focus,
+input:active {
+  outline: none;
+  border-color: #0366d6;
 }
 
 a {
