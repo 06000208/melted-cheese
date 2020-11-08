@@ -13,14 +13,12 @@ const pipe = new MainPipe("./app/ipcMain/", "./app/mainListeners/", "mainModules
 
 log.info(`Starting app v${package.version} on ${process.platform} using`, pipe.versions);
 
-const init = async function() {
+const initialize = async function() {
   await app.whenReady();
   log.info("Electron has been initialized");
-  await pipe.initiate();
-  const discordCommands = await pipe.handler.requireDirectory(pipe.client.commands, pipe.client.config.get("commands.directory").value(), true);
-  log.info(discordCommands.message);
-  const discordEvents = await pipe.handler.requireDirectory(pipe.client.events, pipe.client.config.get("events.directory").value(), true);
-  log.info(discordEvents.message);
+  await pipe.initialize();
+  await pipe.client.initialize();
+  log.info(`Main pipe's client has been initialized`);
   log.info("Adding event listeners to electron app...");
   app.on("activate", () => {
     if (BrowserWindow.getAllWindows().length === 0) window(pipe);
@@ -35,4 +33,4 @@ const init = async function() {
   window(pipe);
 };
 
-init();
+initialize();

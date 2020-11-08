@@ -22,6 +22,18 @@ class Client extends DiscordClient {
     super(options);
 
     /**
+     * Whether or not this client has been initialized
+     * @type {boolean}
+     */
+    this.initialized = false;
+
+    /**
+     * Whether or not this client currently has a session (logged in)
+     * @type {boolean}
+     */
+    this.session = false;
+
+    /**
      * Replace this.guilds with our extended GuildManager
      */
     this.guilds = new GuildManager(this);
@@ -67,6 +79,14 @@ class Client extends DiscordClient {
      * @type {EventConstruct}
      */
     this.events = new EventConstruct(this, "discord.js event construct");
+  }
+
+  async initialize() {
+    const discordCommands = await this.pipe.handler.requireDirectory(this.commands, this.config.get("commands.directory").value(), true);
+    log.info(discordCommands.message);
+    const discordEvents = await this.pipe.handler.requireDirectory(this.events, this.config.get("events.directory").value(), true);
+    log.info(discordEvents.message);
+    this.initialized = true;
   }
 }
 
