@@ -1,8 +1,3 @@
-<!--
-If you haven't already, before opening your pull request, read through our contributing file:
-https://github.com/06000208/sandplate/blob/master/CONTRIBUTING.md
--->
-
 **Relevant Issues:**
 
 <!-- 
