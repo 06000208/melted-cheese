@@ -5,6 +5,6 @@ module.exports = new IpcBlock({
   channel: "example",
   once: false,
   invocable: false,
-}, function(client) {
+}, function(pipe, event) {
   log.info("The example ipc channel was emitted in the main process");
 });
