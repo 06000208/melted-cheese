@@ -16,6 +16,13 @@ class MainPipe extends Pipe {
     super(channelListeners, eventListeners, modulesName, true, ipcMain);
 
     /**
+     * Reference to a BrowserWindow
+     * @name MainPipe#win
+     * @type {?BrowserWindow}
+     */
+    this.win = null;
+
+    /**
      * @type {Client}
      */
     this.client = new Client(this, options);

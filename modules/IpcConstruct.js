@@ -11,10 +11,9 @@ class IpcConstruct extends BaseConstruct {
   /**
    * @param {IpcMain|IpcRenderer} ipc
    * @param {Pipe} pipe
-   * @param {boolean} main
    * @param {string} [name]
    */
-  constructor(ipc, pipe, main, name) {
+  constructor(ipc, pipe, name) {
     super(name);
 
     /**
@@ -37,7 +36,7 @@ class IpcConstruct extends BaseConstruct {
      * Whether this is being instantiated for the main process
      * @type {boolean}
      */
-    this.main = main;
+    this.main = pipe.main;
 
     /**
      * Cached IpcBlocks mapped by their ids

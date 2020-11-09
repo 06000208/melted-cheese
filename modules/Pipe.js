@@ -72,13 +72,13 @@ class Pipe extends BaseEventEmitter {
     this.handler = new Handler(modulesName);
   }
 
-  async initiate() {
-    log.info(`${this.main ? "main" : "render"} pipe is initializing`);
+  async initialize() {
     const channelListeners = await this.handler.requireDirectory(this.channels, this.channelListeners, true);
     log.info(channelListeners.message);
     const eventListeners = await this.handler.requireDirectory(this.events, this.eventListeners, true);
     log.info(eventListeners.message);
     this.initialized = true;
+    log.info(`${this.main ? "Main pipe" : "A renderer pipe"} has been initialized`);
   }
 }
 
