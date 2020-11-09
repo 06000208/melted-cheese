@@ -28,10 +28,10 @@ class Client extends DiscordClient {
     this.initialized = false;
 
     /**
-     * Whether or not this client currently has a session (logged in)
+     * Whether or not this client is logged into the discord api
      * @type {boolean}
      */
-    this.session = false;
+    this.online = false;
 
     /**
      * Replace this.guilds with our extended GuildManager
